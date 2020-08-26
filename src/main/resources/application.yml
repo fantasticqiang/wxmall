@@ -1,0 +1,21 @@
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://123.56.62.146:3306/test?Unicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.jdbc.Driver
+    initialization-mode: always
+  # jpa
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format-sql: true
+
+spring.mvc.static-path-pattern: /**
+
+image.prefix: http://localhost:8080/images
+

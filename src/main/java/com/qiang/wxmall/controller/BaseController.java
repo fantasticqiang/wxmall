@@ -1,0 +1,55 @@
+package com.qiang.wxmall.controller;
+
+import com.qiang.wxmall.common.PageResult;
+import com.qiang.wxmall.parameter.Filter;
+import com.qiang.wxmall.parameter.SimpleFilterResolver;
+import com.qiang.wxmall.repository.EntityBase;
+import com.qiang.wxmall.service.BaseService;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+public abstract class BaseController<T extends EntityBase> {
+
+    public abstract BaseService service();
+
+    @RequestMapping(value = "filter", method = RequestMethod.GET)
+    public PageResult filter(@Filter SimpleFilterResolver<T> simpleFilterResolver) {
+        Page<T> page = service().filter(simpleFilterResolver);
+        PageResult<T> result = new PageResult<>();
+        result.setItems(page.getContent());
+        result.setTotal(page.getTotalElements());
+        result.setTotalPage((long) page.getTotalPages());
+        result.setMsg("查询列表成功");
+        result.setCode("000");
+        return result;
+    }
+
+    @PostMapping("/add")
+    public PageResult add(@RequestBody T entity) {
+        PageResult<T> r = new PageResult<>();
+        try {
+            service().save(entity);
+            r.setCode("100");
+            r.setMsg("新增成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            r.setCode("101");
+            r.setMsg("新增失败");
+        }
+        return r;
+    }
+
+    @PutMapping("/update")
+    public PageResult update(@RequestBody T entity) {
+        PageResult<T> r = new PageResult<>();
+        try {
+            service().update(entity);
+            r.setCode("100");
+            r.setMsg("新增成功");
+        } catch (Exception e) {
+            r.setCode("101");
+            r.setMsg("新增失败");
+        }
+        return r;
+    }
+}
