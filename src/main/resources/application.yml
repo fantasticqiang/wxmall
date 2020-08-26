@@ -17,5 +17,5 @@ spring:
 
 spring.mvc.static-path-pattern: /**
 
-image.prefix: http://localhost:8080/images
+image.prefix: http://sc-test.fanshengyimei.cn/images
 
